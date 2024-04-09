@@ -47,10 +47,11 @@ const Sidebar = () => {
           </li>
         ))}
       </ul>
-      <div className="p-4 border-t border-gray-300 mt-auto">
+      <div className="py-3 px-6 w-full border-t border-gray-300 mt-auto ">
         <button
           onClick={handleLogout}
-          className="flex items-center text-lg font-semibold hover:bg-gray-800 hover:text-white transition duration-300 py-2 px-4 rounded-md"
+          className="flex items-center text-lg font-semibold transition duration-300 py-2 px-4 rounded-md"
+          style={{ backgroundColor: 'rgba(0, 0, 0, 0)' }}
         >
           <FaSignOutAlt className="mr-2" />
           Logout

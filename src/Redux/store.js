@@ -3,10 +3,12 @@ import { configureStore } from '@reduxjs/toolkit';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from './reducers/authSlice';
+import orderReducer from './reducers/ordersSlice'
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  orders:orderReducer
 });
 
 const persistConfig = {

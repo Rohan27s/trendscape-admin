@@ -23,7 +23,7 @@ const Home = () => {
       <div className="flex flex-row items-center justify-start text-2xl mb-4 gap-2"><p>Welcome Back, </p> <p className='font-bold capitalize '>{username}</p> </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {cardsData.map((card, index) => (
-          <div key={index} className="bg-slate-100 shadow-md rounded-lg p-6">
+          <div key={index} className="bg-slate-100 shadow-md rounded-lg p-6 select-none">
             <p className="text-3xl font-bold text-gray-900">{card.value}</p>
             <h2 className="text-lg font-semibold mb-2 text-gray-800">{card.title}</h2>
           </div>

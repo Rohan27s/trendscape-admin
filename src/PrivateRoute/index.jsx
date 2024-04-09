@@ -24,7 +24,7 @@ const PrivateRoute = ({ element, ...rest }) => {
   return isAuthenticated ? (
     <div className="flex w-full">
       <Sidebar />
-      <div className='p-8'>
+      <div className='p-8 w-full'>
         {element}
       </div>
       {/* Logout Modal */}
