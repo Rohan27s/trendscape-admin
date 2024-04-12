@@ -4,11 +4,15 @@ import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import authReducer from './reducers/authSlice';
 import orderReducer from './reducers/ordersSlice'
+import productReducer from './reducers/productSlice'
+
+
 import { getDefaultMiddleware } from '@reduxjs/toolkit';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  orders:orderReducer
+  orders:orderReducer,
+  products:productReducer
 });
 
 const persistConfig = {

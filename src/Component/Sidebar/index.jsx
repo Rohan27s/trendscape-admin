@@ -28,7 +28,7 @@ const Sidebar = () => {
   ];
 
   return (
-    <div className="bg-white text-gray-600 h-screen w-64 flex flex-col shadow-lg border-r border-gray-300">
+    <div className="bg-white text-gray-600 sticky left-0 top-0 h-screen w-64 flex flex-col shadow-lg border-r border-gray-300">
       <div className="p-4 border-b border-gray-300">
         <h1 className="text-2xl text-center capitalize font-extrabold text-gray-800 select-none">TRENDSCAPE</h1>
       </div>

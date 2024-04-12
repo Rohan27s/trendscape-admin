@@ -1,0 +1,70 @@
+import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+const initialState = {
+  products: [],
+  product: null,
+  loading: false,
+  error: null,
+};
+
+const productSlice = createSlice({
+  name: 'products',
+  initialState,
+  reducers: {
+    fetchProductsStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchProductsSuccess(state, action) {
+      state.products = action.payload;
+      state.loading = false;
+    },
+    fetchProductsFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    fetchProductStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    fetchProductSuccess(state, action) {
+      state.product = action.payload;
+      state.loading = false;
+    },
+    fetchProductFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  },
+});
+
+export const { fetchProductsStart, fetchProductsSuccess, fetchProductsFailure, fetchProductStart, fetchProductSuccess, fetchProductFailure } = productSlice.actions;
+
+// Async action creator for fetching products
+export const fetchProducts = () => async dispatch => {
+  dispatch(fetchProductsStart());
+
+  try {
+    const response = await axios.get('https://trendscape-backend.vercel.app/api/products/');
+    dispatch(fetchProductsSuccess(response.data));
+  } catch (error) {
+    console.error('Failed to fetch products:', error);
+    dispatch(fetchProductsFailure(error.message));
+  }
+};
+
+// Async action creator for fetching a single product detail by ID
+export const fetchProductById = (productId) => async dispatch => {
+  dispatch(fetchProductStart());
+
+  try {
+    const response = await axios.get(`https://trendscape-backend.vercel.app/api/products/${productId}`);
+    dispatch(fetchProductSuccess(response.data));
+  } catch (error) {
+    console.error('Failed to fetch product detail:', error);
+    dispatch(fetchProductFailure(error.message));
+  }
+};
+
+export default productSlice.reducer;
