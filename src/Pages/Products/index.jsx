@@ -15,7 +15,14 @@ const Products = () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-semibold mb-4">Products</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-3xl font-semibold">Products</h1>
+        <Link to={`/products/create`}>
+          <button className="bg-slate-900 hover:bg-slate-700 text-white font-bold py-2 px-4 rounded">
+            Create Product
+          </button>
+        </Link>
+      </div>
       {loading ? (
         <div className='h-screen w-full'>
           <Loading />
@@ -41,9 +48,10 @@ const Products = () => {
                 <td className="px-6 py-4 whitespace-nowrap">{product.name}</td>
                 <td className="px-6 py-4 whitespace-nowrap">₹{product.price}</td>
                 <td className="px-6 py-4 whitespace-nowrap">
-                  {/* <button className="text-blue-500 flex items-center"> */}
                   <Link to={`/products/${product._id}`}>
-                    <button>View</button>
+                    <button className="border-2 text-black border-slate-900 rounded-md bg-transparent hover:bg-slate-700 hover:text-white font-bold py-2 px-4 ">
+                      View
+                    </button>
                   </Link>
                 </td>
               </tr>

@@ -12,6 +12,7 @@ import Analytics from './Pages/Analytics';
 import Products from './Pages/Products';
 import Orders from './Pages/Orders.jsx';
 import Product from './Pages/Product/[id].jsx';
+import CreateProduct from './Pages/CreateProduct/index.jsx';
 
 
 const App = () => {
@@ -25,7 +26,9 @@ const App = () => {
             <Route path="/analytics" element={<PrivateRoute element={<Analytics/>} />} />
             <Route path="/orders" element={<PrivateRoute element={<Orders/>} />} />
             <Route path="/products" element={<PrivateRoute element={<Products/>} />} />
-            <Route path="/products/:id" element={<PrivateRoute element={<Product />} />} /> {/* Route for Product component */}
+            <Route path="/products/:id" element={<PrivateRoute element={<Product />} />} />
+            <Route path="/products/create" element={<PrivateRoute element={<CreateProduct />} />} />
+          
           </Routes>
         </Router>
         <ToastContainer />
