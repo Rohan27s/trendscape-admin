@@ -50,19 +50,19 @@ const Product = () => {
                     console.error("Error uploading image:", error);
                 });
         }
-    
+
         // Create a copy of the edited product with updated image URLs
         const updatedProduct = {
             ...editedProduct,
             images: [...editedProduct.images, ...imageURLs]
         };
-    
+
         // Dispatch updateProduct action with the updated product data
         dispatch(updateProduct(id, updatedProduct));
-    
+
         setIsEditing(false);
     };
-    
+
     useEffect(() => {
         console.log("New wlaaa", editedProduct);
 
@@ -127,7 +127,7 @@ const Product = () => {
     if (!product) return null;
 
     return (
-        <div className="max-w-4xl mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto  py-8">
             <div className="flex justify-end mb-4">
                 {isEditing ? (
                     <>
@@ -139,26 +139,64 @@ const Product = () => {
                 )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="flex justify-center items-center flex-wrap">
+                <div className="flex justify-center flex-row items-center flex-wrap w-full bg-gray-200">
                     {/* Render existing images */}
                     {editedProduct.images && editedProduct.images.map((image, index) => (
-                        <img key={index} src={image} alt={`Product Image ${index + 1}`} className="w-40 h-40 md:w-60 md:h-60 object-cover rounded-lg m-2" />
+                        <div className={`w-${index === 0 ? 'full' : '40'} bg-gray-200 max-h-${index === 0 ? '[50vh]' : '40'}   rounded-lg m-2 object-cover`}>
+
+                            <img
+                                key={index}
+                                src={image}
+                                alt={`Product Image ${index + 1}`}
+                                className='w-full h-full object-contain'
+                            />
+                        </div>
                     ))}
                     {/* Input field for uploading images */}
                     {isEditing && (
-                        <input
-                            type="file"
-                            multiple
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="mt-4"
-                        />
+                        <div className="mt-4">
+                            <label htmlFor="image-upload" className="flex items-center cursor-pointer">
+                                <svg
+                                    className="w-6 h-6 mr-2"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        strokeWidth="2"
+                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+                                    />
+                                </svg>
+                                Upload more images
+                            </label>
+                            <input
+                                id="image-upload"
+                                type="file"
+                                multiple
+                                accept="image/*"
+                                onChange={handleImageChange}
+                                className="hidden"
+                            />
+                        </div>
                     )}
+
                     {/* Display selected images */}
-                    {selectedImages.map((file, index) => (
-                        <img key={index} src={URL.createObjectURL(file)} alt={`Selected Image ${index + 1}`} className="w-40 h-40 md:w-60 md:h-60 object-cover rounded-lg m-2" />
-                    ))}
+                    {isEditing &&
+                    <div className='bg-gray-100 flex flex-row p-2 flex-wrap'>
+                        {selectedImages?.map((file, index) => (
+                            <img
+                                key={index}
+                                src={URL.createObjectURL(file)}
+                                alt={`Selected Image ${index + 1}`}
+                                className="w-10 h-10 md:w-60 md:h-60 object-cover rounded-lg m-2"
+                            />
+                        ))}
+                    </div>}
                 </div>
+
                 <div>
                     <h1 className="text-3xl font-semibold mb-4">{isEditing ? (
                         <input type="text" name="name" value={editedProduct.name || ''} onChange={handleInputChange} className="border border-gray-300 p-2 w-full mb-2 rounded-lg" placeholder="Product Name" />

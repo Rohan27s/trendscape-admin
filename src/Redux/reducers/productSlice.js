@@ -66,6 +66,19 @@ export const updateProduct = (productId, updatedProductData) => async dispatch =
   }
 };
 
+// Async action creator for deleting a product
+export const deleteProduct = (productId) => async (dispatch) => {
+  dispatch(updateProductStart());
+
+  try {
+    await axios.delete(`https://trendscape-backend.vercel.app/api/products/${productId}`);
+    dispatch(updateProductSuccess(null)); // Assuming null as success response for delete operation
+  } catch (error) {
+    console.error('Failed to delete product:', error);
+    dispatch(updateProductFailure(error.message));
+  }
+};
+
 // Async action creator for fetching products
 export const fetchProducts = () => async dispatch => {
   dispatch(fetchProductsStart());
@@ -89,6 +102,18 @@ export const fetchProductById = (productId) => async dispatch => {
   } catch (error) {
     console.error('Failed to fetch product detail:', error);
     dispatch(fetchProductFailure(error.message));
+  }
+};
+// Async action creator for creating a new product
+export const createProduct = (newProductData) => async (dispatch) => {
+  dispatch(updateProductStart());
+
+  try {
+    const response = await axios.post('https://trendscape-backend.vercel.app/api/products/', newProductData);
+    dispatch(updateProductSuccess(response.data));
+  } catch (error) {
+    console.error('Failed to create product:', error);
+    dispatch(updateProductFailure(error.message));
   }
 };
 
