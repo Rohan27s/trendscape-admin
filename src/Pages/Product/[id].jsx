@@ -6,7 +6,7 @@ import genericColors from '../../Utils/const';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import storage from '../../firebase';
 import Loading from '../../Component/Loading';
-import { FaSpinner } from 'react-icons/fa';
+import { FaSpinner, FaUpload } from 'react-icons/fa';
 
 const Product = () => {
     const { id } = useParams();
@@ -145,63 +145,44 @@ const Product = () => {
                 )}
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="flex justify-center flex-row items-center flex-wrap w-full bg-gray-200">
-                    {/* Render existing images */}
-                    {editedProduct.images && editedProduct.images.map((image, index) => (
-                        <div className={`w-${index === 0 ? 'full' : '40'} bg-gray-200 max-h-${index === 0 ? '[50vh]' : '40'}   rounded-lg m-2 object-cover`}>
-
-                            <img
-                                key={index}
-                                src={image}
-                                alt={`Product Image ${index + 1}`}
-                                className='w-full h-full object-contain'
-                            />
-                        </div>
-                    ))}
-                    {/* Input field for uploading images */}
-                    {isEditing && (
-                        <div className="mt-4">
-                            <label htmlFor="image-upload" className="flex items-center cursor-pointer">
-                                <svg
-                                    className="w-6 h-6 mr-2"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    viewBox="0 0 24 24"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-                                    />
-                                </svg>
-                                Upload more images
-                            </label>
-                            <input
-                                id="image-upload"
-                                type="file"
-                                multiple
-                                accept="image/*"
-                                onChange={handleImageChange}
-                                className="hidden"
-                            />
-                        </div>
-                    )}
-
-                    {/* Display selected images */}
-                    {isEditing &&
-                        <div className='bg-gray-100 flex flex-row p-2 flex-wrap'>
-                            {selectedImages?.map((file, index) => (
-                                <img
-                                    key={index}
-                                    src={URL.createObjectURL(file)}
-                                    alt={`Selected Image ${index + 1}`}
-                                    className="w-10 h-10 md:w-60 md:h-60 object-cover rounded-lg m-2"
-                                />
-                            ))}
-                        </div>}
-                </div>
+            <div className="flex justify-center flex-row items-center flex-wrap w-full bg-gray-200 p-4 rounded-lg">
+                {/* Render existing images */}
+                {editedProduct.images && editedProduct.images.map((image, index) => (
+                    <div key={index} className={`w-${index === 0 ? 'full' : '40'} bg-gray-200 max-h-${index === 0 ? '[50vh]' : '40'} rounded-lg m-2 overflow-hidden relative`}>
+                        <img
+                            src={image}
+                            alt={`Product Image ${index + 1}`}
+                            className='w-full h-full object-cover'
+                        />
+                    </div>
+                ))}
+                {/* Input field for uploading images */}
+                {isEditing && (
+                    <div className="relative group flex justify-center w-full ">
+                        <label htmlFor="image-upload" className="flex items-center cursor-pointer">
+                            <FaUpload className="w-6 h-6 mr-2 text-gray-600 group-hover:text-gray-800 transition-colors duration-300" />
+                            Upload more images
+                        </label>
+                        <input
+                            id="image-upload"
+                            type="file"
+                            multiple
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            className="hidden"
+                        />
+                    </div>
+                )}
+                {/* Display selected images */}
+                {isEditing && selectedImages?.map((file, index) => (
+                    <img
+                        key={index}
+                        src={URL.createObjectURL(file)}
+                        alt={`Selected Image ${index + 1}`}
+                        className="w-40 h-40 object-cover rounded-lg m-2"
+                    />
+                ))}
+            </div>
 
                 <div>
                     <h1 className="text-3xl font-semibold mb-4">{isEditing ? (

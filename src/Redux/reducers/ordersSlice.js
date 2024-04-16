@@ -5,6 +5,7 @@ const initialState = {
   orders: [],
   loading: false,
   error: null,
+  orderDetails: null,
 };
 
 const orderSlice = createSlice({
@@ -23,22 +24,59 @@ const orderSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    fetchOrderDetailsStart(state) {
+      state.loading = true;
+      state.error = null;
+      state.orderDetails = null;
+    },
+    fetchOrderDetailsSuccess(state, action) {
+      state.orderDetails = action.payload;
+      state.loading = false;
+    },
+    fetchOrderDetailsFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    deleteOrderStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+    deleteOrderSuccess(state) {
+      state.loading = false;
+    },
+    deleteOrderFailure(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
   },
 });
 
-export const { fetchOrdersStart, fetchOrdersSuccess, fetchOrdersFailure } = orderSlice.actions;
+export const {
+  fetchOrdersStart,
+  fetchOrdersSuccess,
+  fetchOrdersFailure,
+  fetchOrderDetailsStart,
+  fetchOrderDetailsSuccess,
+  fetchOrderDetailsFailure,
+  deleteOrderStart,
+  deleteOrderSuccess,
+  deleteOrderFailure,
+} = orderSlice.actions;
 
 // Async action creator for fetching orders
-export const fetchOrders = () => async dispatch => {
+export const fetchOrders = (token) => async (dispatch) => {
   dispatch(fetchOrdersStart());
 
   try {
-    const response = await axios.get('https://trendscape-backend.vercel.app/api/orders/all-orders', {
-      headers: {
-        'Authorization': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjE0ZmRlODQ0M2JkZTY5MjY5Yzc4NjIiLCJpYXQiOjE3MTI2NTE4MDgsImV4cCI6MTcxMjczODIwOH0.Rvhug91KPTZbtM69W7eU1S_8J4X0cMVH48CycZW3So4'
+    const response = await axios.get(
+      'https://trendscape-backend.vercel.app/api/orders/all-orders',
+      {
+        headers: {
+          Authorization: token, // Include the token in the Authorization header
+        },
       }
-    });
-console.log("here",response);
+    );
+
     dispatch(fetchOrdersSuccess(response.data));
   } catch (error) {
     console.error('Failed to fetch orders:', error);
@@ -46,4 +84,39 @@ console.log("here",response);
   }
 };
 
+// Async action creator for fetching order details by ID
+export const fetchOrderDetails = (orderId) => async dispatch => {
+  dispatch(fetchOrderDetailsStart());
+
+  try {
+    const response = await axios.get(`https://trendscape-backend.vercel.app/api/orders/${orderId}`, {
+      headers: {
+        'Authorization': 'your_auth_token_here'
+      }
+    });
+
+    dispatch(fetchOrderDetailsSuccess(response.data));
+  } catch (error) {
+    console.error('Failed to fetch order details:', error);
+    dispatch(fetchOrderDetailsFailure(error.message));
+  }
+};
+export const deleteOrder = (orderId) => async dispatch => {
+  dispatch(deleteOrderStart());
+
+  try {
+    await axios.delete(`https://trendscape-backend.vercel.app/api/orders/${orderId}`, {
+      headers: {
+        'Authorization': 'your_auth_token_here'
+      }
+    });
+
+    dispatch(deleteOrderSuccess());
+    // Optionally, you can dispatch fetchOrders to refresh the orders list after deletion
+    dispatch(fetchOrders());
+  } catch (error) {
+    console.error('Failed to delete order:', error);
+    dispatch(deleteOrderFailure(error.message));
+  }
+};
 export default orderSlice.reducer;
