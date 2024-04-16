@@ -5,6 +5,8 @@ import { fetchProductById, updateProduct } from '../../Redux/reducers/productSli
 import genericColors from '../../Utils/const';
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import storage from '../../firebase';
+import Loading from '../../Component/Loading';
+import { FaSpinner } from 'react-icons/fa';
 
 const Product = () => {
     const { id } = useParams();
@@ -122,7 +124,11 @@ const Product = () => {
         setSelectedImages(files);
     };
 
-    if (loading) return <div className="text-center mt-8">Loading...</div>;
+    if (!product) return <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
+        <div className="flex justify-center items-center w-full h-full">
+            <FaSpinner className="animate-spin text-4xl text-white" />
+        </div>
+    </div>;
     if (error) return <div className="text-center mt-8">Error: {error}</div>;
     if (!product) return null;
 
@@ -185,16 +191,16 @@ const Product = () => {
 
                     {/* Display selected images */}
                     {isEditing &&
-                    <div className='bg-gray-100 flex flex-row p-2 flex-wrap'>
-                        {selectedImages?.map((file, index) => (
-                            <img
-                                key={index}
-                                src={URL.createObjectURL(file)}
-                                alt={`Selected Image ${index + 1}`}
-                                className="w-10 h-10 md:w-60 md:h-60 object-cover rounded-lg m-2"
-                            />
-                        ))}
-                    </div>}
+                        <div className='bg-gray-100 flex flex-row p-2 flex-wrap'>
+                            {selectedImages?.map((file, index) => (
+                                <img
+                                    key={index}
+                                    src={URL.createObjectURL(file)}
+                                    alt={`Selected Image ${index + 1}`}
+                                    className="w-10 h-10 md:w-60 md:h-60 object-cover rounded-lg m-2"
+                                />
+                            ))}
+                        </div>}
                 </div>
 
                 <div>
