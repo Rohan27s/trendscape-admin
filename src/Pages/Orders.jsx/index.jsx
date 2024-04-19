@@ -68,7 +68,7 @@ const Orders = () => {
                   </td>
                   <td className="px-6 py-4">{formatDate(order?.createdAt)}</td>
                   <td className="px-6 py-4">
-                    {order?.paymentMethod === 'COD' ? (
+                    {order?.paymentMethod === 'cod' ? (
                       <span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-md">Pending</span>
                     ) : (
                       <span className="bg-green-100 text-green-800 px-2 py-1 rounded-md">Paid</span>
