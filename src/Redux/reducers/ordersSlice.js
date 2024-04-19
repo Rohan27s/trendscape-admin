@@ -6,6 +6,7 @@ const initialState = {
   loading: false,
   error: null,
   orderDetails: null,
+  revenueData: null,
 };
 
 const orderSlice = createSlice({
@@ -32,6 +33,9 @@ const orderSlice = createSlice({
     fetchOrderDetailsSuccess(state, action) {
       state.orderDetails = action.payload;
       state.loading = false;
+    },
+    setRevenueData(state, action) {
+      state.revenueData = action.payload;
     },
     fetchOrderDetailsFailure(state, action) {
       state.loading = false;
@@ -61,6 +65,7 @@ export const {
   deleteOrderStart,
   deleteOrderSuccess,
   deleteOrderFailure,
+  setRevenueData, 
 } = orderSlice.actions;
 
 // Async action creator for fetching orders
@@ -83,7 +88,14 @@ export const fetchOrders = (token) => async (dispatch) => {
     dispatch(fetchOrdersFailure(error.message));
   }
 };
-
+export const fetchRevenueData = () => async (dispatch) => {
+  try {
+    const response = await axios.get('https://trendscape-backend.vercel.app/api/revenue/');
+    dispatch(setRevenueData(response.data));
+  } catch (error) {
+    console.error('Failed to fetch revenue data:', error);
+  }
+};
 // Async action creator for fetching order details by ID
 export const fetchOrderDetails = (orderId) => async dispatch => {
   dispatch(fetchOrderDetailsStart());

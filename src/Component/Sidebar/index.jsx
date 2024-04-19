@@ -22,7 +22,7 @@ const Sidebar = () => {
   // Define sidebar items with icons
   const sidebarItems = [
     { to: '/', label: 'Home', icon: <FaHome /> },
-    { to: '/analytics', label: 'Analytics', icon: <FaChartLine /> },
+    // { to: '/analytics', label: 'Analytics', icon: <FaChartLine /> },
     { to: '/orders', label: 'Orders', icon: <FaClipboardList /> },
     { to: '/products', label: 'Products', icon: <FaBox /> }
   ];
